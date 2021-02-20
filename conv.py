@@ -22,7 +22,7 @@ def convert(text: str, debug: bool=False, hotfix: bool=False) -> str:
         print('Nothing to see here!')
     else:
 		# We need to include all necessary packages
-        res = '---\n' + res + '\n---'
+        res = '\n' + res + '\n'
 				
     if debug:
         with open('cout.txt', 'w') as f:
@@ -81,7 +81,7 @@ def _convert(text: str) -> str:
     bop = {}
     bop['/'] = BinaryOperator('/', '\\frac@', '`@', '`')
     
-    for x in range(10):
+    while True:
         can_break = True
         for i in range(len(text)):
             if text[i] in bop:
@@ -98,7 +98,6 @@ def _convert(text: str) -> str:
                 break
         if can_break:
             break
-        print(text)
     
     i = 0
     while i < len(text):
