@@ -1,3 +1,5 @@
+from pdflatex import PDFLaTeX
+
 # This is a binary operator class
 class BinaryOperator:
     def __init__(self, op: str, left: str, center: str, right: str):
@@ -22,7 +24,7 @@ def convert(text: str, debug: bool=False, hotfix: bool=False) -> str:
         print('Nothing to see here!')
     else:
 		# We need to include all necessary packages
-        res = '\n' + res + '\n'
+        res = '' + res + ''
 				
     if debug:
         with open('cout.txt', 'w') as f:
@@ -146,7 +148,17 @@ def _convert(text: str) -> str:
     return result
     
 def conv(text: str) -> str:
-    return '$\n' + _convert(text.strip()).replace('`', '}').replace('@', '{') + '\n$'
+    h, ft = '', ''
+    with open('header.txt') as f:
+        for l in f:
+            h += l
+
+    with open('footer.txt') as f:
+        for l in f:
+            ft += l
+    
+    return h + _convert(text.strip()).replace('`', '}').replace('@', '{') + ft
+
 
 exText = '''
 [
@@ -165,5 +177,6 @@ y / (x + 1) = 1
 ]
 '''
 
-print(convert(exText, True))
-
+res = convert(exText, True)
+#pdfl = PDFLaTeX.from_texfile('cout.txt')
+#pdf, log, completed_process = pdfl.create_pdf(keep_pdf_file=True, keep_log_file=True)
