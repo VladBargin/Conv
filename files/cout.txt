@@ -1,0 +1,1 @@
+$ \begin{dsqcases} \begin{dcases} x_{1}^2 + y^2 = 3 \\  x^{2 + 3^x} = 5 \\  \end{dcases} \\  \begin{dcases} x + 2 =  \ y \\  y - 5 = x^2 \\  \end{dcases}\begin{dcases} \frac{x}{y} = 0 \\  \frac{y}{x + 1} = 1 \\  \end{dcases} \\    \ i^2 = -1 \\  \end{dsqcases} $ 

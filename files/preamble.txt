@@ -1,8 +1,5 @@
-\documentclass[fleqn]{article}
-\usepackage[utf8]{inputenc}
-\usepackage{mathtools}
 \usepackage{amsmath}
-
+\usepackage{mathtools}
 \DeclareMathOperator{\rank}{rank}
 \makeatletter
 \newenvironment{sqcases}{%
@@ -22,7 +19,3 @@
 \newcases{dsqcases}{\quad}{%
   $\m@th\displaystyle{##}$\hfil}{$\m@th\displaystyle{##}$\hfil}{\lbrack}{.}
 \makeatother
-
-\begin{document}
-
-$

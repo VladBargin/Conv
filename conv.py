@@ -1,5 +1,3 @@
-from pdflatex import PDFLaTeX
-
 # This is a binary operator class
 class BinaryOperator:
     def __init__(self, op: str, left: str, center: str, right: str):
@@ -11,22 +9,24 @@ class BinaryOperator:
     def apply(self, a: str, b: str):
         return self.l + a + self.c + b + self.r
 
-def convert(text: str, debug: bool=False, hotfix: bool=False) -> str:
+def convert(text: str, debug: bool=False, tex: bool=False, hotfix: bool=False) -> str:
     if debug:
-        with open('cin.txt', 'w') as f:
+        with open('./files/cin.txt', 'w') as f:
             f.write(text)
 
-    res = conv(text)
+    res = text
+    if not tex:
+        res = conv(text)
     
-    if hotfix:
-        # This may be neccesary if the export module doesn't change
-        # For now, I am going to ignore this part because my job is to create a LaTeX file
-        print('Nothing to see here!')
-    else:
-        res = res.replace('\n', ' ')
-		
+        if hotfix:
+            # This may be neccesary if the export module doesn't change
+            # For now, I am going to ignore this part because my job is to create a LaTeX file
+            print('Nothing to see here!')
+        else:
+            res = res.replace('\n', ' ')
+            
     if debug:
-        with open('cout.txt', 'w') as f:
+        with open('./files/cout.txt', 'w') as f:
             f.write(res)
     
     return res
@@ -148,34 +148,13 @@ def _convert(text: str) -> str:
     
 def conv(text: str) -> str:
     h, ft = '', ''
-    with open('header.txt') as f:
+    with open('./files/header.txt') as f:
         for l in f:
             h += l
 
-    with open('footer.txt') as f:
+    with open('./files/footer.txt') as f:
         for l in f:
             ft += l
     
     return h + _convert(text.strip()).replace('`', '}').replace('@', '{') + ft
 
-
-exText = '''
-[
-{
-x_(1)^2 + y^2 = 3
-x^(2 + 3^x) = 5
-}
-{
-x + 2 =  y
-y - 5 = x^2
-}{
-x / y = 0
-y / (x + 1) = 1
-}
-  i^2 = -1
-]
-'''
-
-res = convert(exText, True)
-#pdfl = PDFLaTeX.from_texfile('cout.txt')
-#pdf, log, completed_process = pdfl.create_pdf(keep_pdf_file=True, keep_log_file=True)
