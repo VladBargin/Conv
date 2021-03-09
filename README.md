@@ -1,2 +1,2 @@
 # Converter
-Converts our simplified (math) language for our project into LaTeX.
+Converts our simplified (math) language into LaTeX.
