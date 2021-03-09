@@ -21,9 +21,9 @@ def convert(text: str, debug: bool=False, hotfix: bool=False) -> str:
         # For now, I am going to ignore this part because my job is to create a LaTeX file
         print('Nothing to see here!')
     else:
-		# We need to include all necessary packages
-        res = '\n' + res + '\n'
-				
+        res = res.replace('\n', ' ')
+		
+        		
     if debug:
         with open('cout.txt', 'w') as f:
             f.write(res)
