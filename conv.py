@@ -10,9 +10,9 @@ class BinaryOperator:
         return self.l + a + self.c + b + self.r
 
 def convert(text: str, debug: bool=False, tex: bool=False, hotfix: bool=False) -> str:
-    if debug:
-        with open('./files/cin.txt', 'w') as f:
-            f.write(text)
+    #if debug:
+     #   with open('./files/cin.txt', 'w') as f:
+     #       f.write(text)
 
     res = text
     if not tex:
@@ -25,28 +25,38 @@ def convert(text: str, debug: bool=False, tex: bool=False, hotfix: bool=False) -
         else:
             res = res.replace('\n', ' ')
             
-    if debug:
-        with open('./files/cout.txt', 'w') as f:
-            f.write(res)
+   # if debug:
+   #     with open('./files/cout.txt', 'w') as f:
+   #         f.write(res)
     
     return res
 
 def find_next_bracket(text: str, i: int, brackets: tuple, balance=0, step=1):
-    while i >= 0 and i < len(text):
-        if text[i] == brackets[0]:
-            balance += 1
-        elif text[i] == brackets[1]:
-            balance -= 1
-            
-        if balance == 0:
-            return i
-        i += step
+    if len(brackets) == 2:
+        while i >= 0 and i < len(text):
+            if text[i] == brackets[0]:
+                balance += 1
+            elif text[i] == brackets[1]:
+                balance -= 1
+                
+            if balance == 0:
+                return i
+            i += step
+    else:
+        cnt = 0
+        while i >= 0 and i < len(text):
+            if text[i] == brackets[0]:
+                cnt += 1
+            if cnt == 2:
+                return i
+            i += step
     
     # Couldn't find any bracket
     return -1
+            
     
 def find(text: str, i: int, step: int) -> int:
-    stop_symbols = {'{', '[', ']', '}', '\n'}
+    stop_symbols = {'{', '[', ']', '}', '`', '\n'}
     cnt_spaces = 0
     while i > 0 and i + 1 < len(text) and text[i + step] not in stop_symbols:
         if text[i + step] == ' ':
@@ -80,7 +90,7 @@ def _convert(text: str) -> str:
     result = ''
     
     bop = {}
-    bop['/'] = BinaryOperator('/', '\\frac@', '`@', '`')
+    bop['/'] = BinaryOperator('/', '\\frac@', '~@', '~')
     
     while True:
         can_break = True
@@ -102,7 +112,13 @@ def _convert(text: str) -> str:
     
     i = 0
     while i < len(text):
-        if text[i] == '{':
+        if text[i] == '`':
+            next_i = find_next_bracket(text, i, ('`'))
+            if next_i < 0:
+                return text
+            result += '\\text{' + _convert(text[i + 1: next_i]) + '}'
+            i = next_i + 1
+        elif text[i] == '{':
             next_i = find_next_bracket(text, i, ('{', '}'))
             if next_i < 0:
                 return text
@@ -156,5 +172,5 @@ def conv(text: str) -> str:
         for l in f:
             ft += l
     
-    return h + _convert(text.strip()).replace('`', '}').replace('@', '{') + ft
+    return h + _convert(text.strip()).replace('~', '}').replace('@', '{') + ft
 
